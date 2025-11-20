@@ -1,0 +1,20 @@
+﻿<Page x:Class="MinesweeperUno.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:MinesweeperUno"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+  <Page x:Class="MinesweeperUno.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:MinesweeperUno"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <TextBlock Text="Minesweeper" FontSize="48" HorizontalAlignment="Center"/>
+        <TextBlock x:Name="StatusTextBlock" Text="Good luck!" HorizontalAlignment="Center" Margin="0,10"/>
+        <Grid x:Name="GameBoard" Margin="0,20">
+            <!-- Game board will be generated here -->
+        </Grid>
+        <Button Content="New Game" Click="NewGameButton_Click" HorizontalAlignment="Center" Margin="0,10"/>
+    </StackPanel>
+</Page>
+</Page>

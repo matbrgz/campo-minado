@@ -2,15 +2,18 @@
 #include <stdlib.h>
 #include <time.h>
 
-void gera_bomba(char tabuleiro_auxiliar[9 + 2][9 + 2], int bombas)
+int menu(int *config_x, int *config_y, int *config_bombas);
+void menu_config(int *config_x, int *config_y, int *config_bombas);
+
+void gera_bomba(char tabuleiro_auxiliar[9 + 2][9 + 2], int bombas, int x_init, int y_init)
 {
     srand(time(NULL));
     //srand(1);
     int x_rand, y_rand;
     for (int i = 0; i < bombas; i++)
     {
-        x_rand = 1 + (rand() % 9);
-        y_rand = 1 + (rand() % 9);
+        x_rand = 1 + (rand() % x_init);
+        y_rand = 1 + (rand() % y_init);
         if (tabuleiro_auxiliar[x_rand][y_rand] != '*')
         {
             tabuleiro_auxiliar[x_rand][y_rand] = '*';
@@ -18,17 +21,17 @@ void gera_bomba(char tabuleiro_auxiliar[9 + 2][9 + 2], int bombas)
         // trata as colisões de bombas
         else
         {
-            gera_bomba(tabuleiro_auxiliar, 1);
+            gera_bomba(tabuleiro_auxiliar, 1, x_init, y_init);
         }
     }
 }
 
-void adjacente(char tabuleiro_auxiliar[9 + 2][9 + 2])
+void adjacente(char tabuleiro_auxiliar[9 + 2][9 + 2], int x_init, int y_init)
 {
     char count;
-    for (int i = 1; i < 10; i++)
+    for (int i = 1; i < y_init + 1; i++)
     {
-        for (int j = 1; j < 10; j++)
+        for (int j = 1; j < x_init + 1; j++)
         {
             count = '0';
             if (tabuleiro_auxiliar[i][j] != '*')
@@ -71,7 +74,7 @@ void adjacente(char tabuleiro_auxiliar[9 + 2][9 + 2])
     }
 }
 
-void transporta(int x, int y, char tabuleiro[9 + 2][9 + 2], char tabuleiro_auxiliar[9 + 2][9 + 2])
+void transporta(int x, int y, char tabuleiro[9 + 2][9 + 2], char tabuleiro_auxiliar[9 + 2][9 + 2], int x_init, int y_init)
 {
     if (tabuleiro_auxiliar[x - 1][y] != '*')
     {
@@ -107,8 +110,10 @@ void transporta(int x, int y, char tabuleiro[9 + 2][9 + 2], char tabuleiro_auxil
     }
 }
 
-void expandir(int x, int y, char tabuleiro[9 + 2][9 + 2], char tabuleiro_auxiliar[9 + 2][9 + 2])
+void expandir(int x, int y, char tabuleiro[9 + 2][9 + 2], char tabuleiro_auxiliar[9 + 2][9 + 2], int x_init, int y_init)
 {
+    if (x < 1 || x > x_init || y < 1 || y > y_init) return;
+
     if (tabuleiro_auxiliar[x][y] == '0')
     {
         tabuleiro_auxiliar[x][y] = '+';
@@ -117,101 +122,84 @@ void expandir(int x, int y, char tabuleiro[9 + 2][9 + 2], char tabuleiro_auxilia
     else
     {
         tabuleiro[x][y] = tabuleiro_auxiliar[x][y];
+        return;
     }
     if (tabuleiro_auxiliar[x - 1][y] == '0')
     {
-        expandir(x - 1, y, tabuleiro, tabuleiro_auxiliar);
+        expandir(x - 1, y, tabuleiro, tabuleiro_auxiliar, x_init, y_init);
     }
     if (tabuleiro_auxiliar[x][y - 1] == '0')
     {
-        expandir(x, y - 1, tabuleiro, tabuleiro_auxiliar);
+        expandir(x, y - 1, tabuleiro, tabuleiro_auxiliar, x_init, y_init);
     }
     if (tabuleiro_auxiliar[x][y + 1] == '0')
     {
-        expandir(x, y + 1, tabuleiro, tabuleiro_auxiliar);
+        expandir(x, y + 1, tabuleiro, tabuleiro_auxiliar, x_init, y_init);
     }
     if (tabuleiro_auxiliar[x + 1][y] == '0')
     {
-        expandir(x + 1, y, tabuleiro, tabuleiro_auxiliar);
+        expandir(x + 1, y, tabuleiro, tabuleiro_auxiliar, x_init, y_init);
     }
-    transporta(x, y, tabuleiro, tabuleiro_auxiliar);
+    transporta(x, y, tabuleiro, tabuleiro_auxiliar, x_init, y_init);
 }
 
-void inserir(int x, int y, int tipo)
+void inserir(int *x, int *y, int tipo, int x_init, int y_init)
 {
-    int retorno_verifica;
     do
     {
         if (tipo == 1)
         {
             printf("Insira a linha que deseja colocar a bandeira: ");
-            scanf("%d", &x);
+            scanf("%d", x);
             printf("Insira a coluna que deseja colocar a bandeira: ");
-            scanf("%d", &y);
+            scanf("%d", y);
         }
         else
         {
             printf("Insira a linha da jogada: ");
-            scanf("%d", &x);
+            scanf("%d", x);
             printf("Insira a coluna da jogada: ");
-            scanf("%d", &y);
+            scanf("%d", y);
         }
-        if (x > 1 || x < 10 || y > 1 || y < 10)
+        if (*x >= 1 && *x <= x_init && *y >= 1 && *y <= y_init)
         {
-            retorno_verifica = 1;
             break;
         }
         printf("Jogada invalida\n");
-    } while (retorno_verifica == 0);
+    } while (1);
 }
 
-void preenche_tabuleiro(char tabuleiro[9 + 2][9 + 2], char tabuleiro_auxiliar[9 + 2][9 + 2])
+void preenche_tabuleiro(char tabuleiro[9 + 2][9 + 2], char tabuleiro_auxiliar[9 + 2][9 + 2], int x_init, int y_init, int bombas)
 {
-    for (int i = 0; i < 11; i++)
+    for (int i = 0; i < y_init + 2; i++)
     {
-        for (int j = 0; j < 11; j++)
+        for (int j = 0; j < x_init + 2; j++)
         {
             tabuleiro[i][j] = '#';
             tabuleiro_auxiliar[i][j] = '#';
         }
     }
-    gera_bomba(tabuleiro_auxiliar, 10);
-    adjacente(tabuleiro_auxiliar);
-    for (int i = 0; i < 11; i++)
+    gera_bomba(tabuleiro_auxiliar, bombas, x_init, y_init);
+    adjacente(tabuleiro_auxiliar, x_init, y_init);
+    for (int i = 0; i < y_init + 2; i++)
     {
-        for (int j = 0; j < 11; j++)
+        for (int j = 0; j < x_init + 2; j++)
         {
-            if (i == 0)
+            if (i == 0 || i == y_init + 1 || j == 0 || j == x_init + 1)
             {
-                tabuleiro[0][j] = '@';
-                tabuleiro_auxiliar[0][j] = '@';
-            }
-            if (i == 10)
-            {
-                tabuleiro[10][j] = '@';
-                tabuleiro_auxiliar[10][j] = '@';
-            }
-
-            if (j == 0)
-            {
-                tabuleiro[i][0] = '@';
-                tabuleiro_auxiliar[i][0] = '@';
-            }
-            if (j == 10)
-            {
-                tabuleiro[i][10] = '@';
-                tabuleiro_auxiliar[i][10] = '@';
+                tabuleiro[i][j] = '@';
+                tabuleiro_auxiliar[i][j] = '@';
             }
         }
     }
 }
 
-void printa_tabuleiro(char tabuleiro[9 + 2][9 + 2])
+void printa_tabuleiro(char tabuleiro[9 + 2][9 + 2], int x_init, int y_init)
 {
     printf("\t");
-    for (int y = 0; y < 11; y++)
+    for (int y = 0; y < y_init + 2; y++)
     {
-        if (y != 0 && y != 10)
+        if (y != 0 && y != y_init + 1)
         {
             printf("%d ", y);
         }
@@ -221,9 +209,9 @@ void printa_tabuleiro(char tabuleiro[9 + 2][9 + 2])
         }
     }
     printf("\n\n");
-    for (int x = 0; x < 11; x++)
+    for (int x = 0; x < x_init + 2; x++)
     {
-        if (x != 0 && x != 10)
+        if (x != 0 && x != x_init + 1)
         {
             printf("%d ", x);
         }
@@ -232,7 +220,7 @@ void printa_tabuleiro(char tabuleiro[9 + 2][9 + 2])
             printf("  ");
         }
         printf("\t");
-        for (int y = 0; y < 11; y++)
+        for (int y = 0; y < y_init + 2; y++)
         {
             printf("%c ", tabuleiro[x][y]);
         }
@@ -245,25 +233,27 @@ void jogo(int x_init, int y_init, int bombas)
 {
     char tabuleiro[9 + 2][9 + 2], tabuleiro_auxiliar[9 + 2][9 + 2];
     int ganhou = 0;
+    int celulas_abertas = 0;
+    int celulas_nao_bomba = (x_init * y_init) - bombas;
+
     system("cls || clear");
-    preenche_tabuleiro(tabuleiro, tabuleiro_auxiliar);
-    int count = 0;
+    preenche_tabuleiro(tabuleiro, tabuleiro_auxiliar, x_init, y_init, bombas);
+
     while (ganhou != 1)
     {
         system("cls || clear");
         printf("----------------------------------------------\n");
         printf("\t\t CAMPO MINADO\n");
         printf("----------------------------------------------\n");
-        printa_tabuleiro(tabuleiro);
+        printa_tabuleiro(tabuleiro, x_init, y_init);
         printf("\n");
-        printa_tabuleiro(tabuleiro_auxiliar);
+        printa_tabuleiro(tabuleiro_auxiliar, x_init, y_init);
         int opcao, x, y;
         printf("Bandeira(-1) ou Abrir(1): ");
         scanf("%d", &opcao);
         if (opcao == -1)
         {
-            printf("%d", x);
-            inserir(x, y, 1);
+            inserir(&x, &y, 1, x_init, y_init);
             if (tabuleiro[x][y] == '-' || tabuleiro[x][y] == '1' || tabuleiro[x][y] == '2' || tabuleiro[x][y] == '4')
             {
                 printf("Voce nao pode colocar uma bandeira na posicao ja aberta\n");
@@ -275,59 +265,86 @@ void jogo(int x_init, int y_init, int bombas)
         }
         else
         {
-            inserir(x, y, 0);
+            inserir(&x, &y, 0, x_init, y_init);
             if (tabuleiro[x][y] == 'B')
             {
                 printf("Voce nao pode abrir uma bandeira\n");
-                system("pause");
             }
             else if (tabuleiro_auxiliar[x][y] == '*')
             {
                 printf("Voce perdeu\n");
-                system("pause");
                 exit(1);
             }
             else
             {
-                expandir(x, y, tabuleiro, tabuleiro_auxiliar);
+                expandir(x, y, tabuleiro, tabuleiro_auxiliar, x_init, y_init);
             }
+        }
+
+        celulas_abertas = 0;
+        for (int i = 1; i <= y_init; i++)
+        {
+            for (int j = 1; j <= x_init; j++)
+            {
+                if (tabuleiro[i][j] != '#' && tabuleiro[i][j] != 'B')
+                {
+                    celulas_abertas++;
+                }
+            }
+        }
+
+        if (celulas_abertas == celulas_nao_bomba)
+        {
+            printf("Parabens! Voce venceu!\n");
+            ganhou = 1;
         }
     }
 }
 
-int menu_config()
+
+
+void menu_config(int *config_x, int *config_y, int *config_bombas)
 {
-    int menu_opcao, config_x = 9, config_y = 9, config_bombas = 10;
-    system("cls || clear");
-    printf("O que deseja:\nDefinir o numero de linhas - digite 1\nDefinir o numero de colunas - digite 2\nDefinir o numero de bombas - digite 3\nVoltar ao menu inicial - digite 4\n");
-    scanf("%d", &menu_opcao);
-    switch (menu_opcao)
+    int menu_opcao;
+    do
     {
-    case 1:
-        printf("Digite o numero de linhas\n");
-        scanf("%d", &config_x);
-        menu_config();
-        break;
-    case 2:
-        printf("Digite o numero de colunas\n");
-        scanf("%d", &config_y);
-        menu_config();
-        break;
-    case 3:
-        printf("Digite o numero de bombas\n");
-        scanf("%d", &config_bombas);
-        menu_config();
-        break;
-    case 4:
-        menu();
-        break;
-    default:
-        printf("Por favor digite uma opcao valida!\n");
-        break;
-    }
+        system("cls || clear");
+        printf("O que deseja:\nDefinir o numero de linhas - digite 1\nDefinir o numero de colunas - digite 2\nDefinir o numero de bombas - digite 3\nVoltar ao menu inicial - digite 4\n");
+        scanf("%d", &menu_opcao);
+        switch (menu_opcao)
+        {
+        case 1:
+            printf("Digite o numero de linhas (max 9)\n");
+            scanf("%d", config_x);
+            if (*config_x > 9)
+            {
+                printf("Numero de linhas excede o maximo. Setado para 9.\n");
+                *config_x = 9;
+            }
+            break;
+        case 2:
+            printf("Digite o numero de colunas (max 9)\n");
+            scanf("%d", config_y);
+            if (*config_y > 9)
+            {
+                printf("Numero de colunas excede o maximo. Setado para 9.\n");
+                *config_y = 9;
+            }
+            break;
+        case 3:
+            printf("Digite o numero de bombas\n");
+            scanf("%d", config_bombas);
+            break;
+        case 4:
+            break;
+        default:
+            printf("Por favor digite uma opcao valida!\n");
+            break;
+        }
+    } while (menu_opcao != 4);
 }
 
-int menu()
+int menu(int *config_x, int *config_y, int *config_bombas)
 {
     int menu_opcao;
     //system("cls || clear");
@@ -342,7 +359,8 @@ int menu()
         return 1;
         break;
     case 2:
-        menu_config();
+        menu_config(config_x, config_y, config_bombas);
+        menu(config_x, config_y, config_bombas);
         break;
     case 3:
         printf("Fechando\n");
@@ -357,12 +375,12 @@ int menu()
 
 int main()
 {
-
+    int config_x = 9, config_y = 9, config_bombas = 10;
     int controle;
-    controle = menu();
+    controle = menu(&config_x, &config_y, &config_bombas);
     if (controle == 1)
     {
-        jogo(9, 9, 10);
+        jogo(config_x, config_y, config_bombas);
     }
     else
     {

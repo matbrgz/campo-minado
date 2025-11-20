@@ -1,0 +1,10 @@
+{
+  "background_color": "#ffffff",
+  "description": "MinesweeperUno",
+  "display": "standalone",
+  "name": "MinesweeperUno",
+  "short_name": "MinesweeperUno",
+  "start_url": "/index.html",
+  "theme_color": "#ffffff",
+  "scope": "/"
+}
