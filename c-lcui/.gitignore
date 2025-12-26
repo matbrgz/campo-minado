@@ -1,0 +1,42 @@
+# Build outputs
+dist
+build
+.xmake
+
+# IDE
+.vscode
+.idea
+
+# LCUI specific
+.lcui
+
+# Node.js
+node_modules
+vendor.node_modules
+package-lock.json
+yarn-error.log
+npm-debug.log*
+
+# Generated files
+include/config.h
+include/version.h
+compile_commands.json
+
+# Compiled files
+*.pdb
+*.exe
+*.dll
+*.log
+*.lib
+*.exp
+*.ilk
+*.o
+*.obj
+*.a
+*.so
+
+# Temporary files
+*~
+*.swp
+*.swo
+.DS_Store

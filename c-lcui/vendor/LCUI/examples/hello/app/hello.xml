@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<lcui-app>
+  <resource type="text/css" src="hello.css"/>
+  <ui>
+    <text id="text-hello" type="text" class="text-hello">
+      [i][color=#f00]Hello[/color][/i], [b][color=#fff][bgcolor=#f00]World![/bgcolor][/color][/b]
+    </text>
+    <textinput id="edit">[i][color=#f00]Hello[/color][/i], [b][color=#fff][bgcolor=#f00]World![/bgcolor][/color][/b]</textinput>
+    <button id="btn">Change</button>
+  </ui>
+</lcui-app>

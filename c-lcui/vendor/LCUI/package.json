@@ -1,0 +1,30 @@
+{
+  "name": "lcui",
+  "version": "3.0.0-alpha.0",
+  "description": "The C library for building user interfaces.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "scripts": {
+    "build-changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
+    "update-changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "update-copyright": "node scripts/add-copyright.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lc-soft/LCUI.git"
+  },
+  "keywords": [
+    "C",
+    "gui",
+    "framework"
+  ],
+  "author": "Liu Chao <root@lc-soft.io> (https://lc-soft.io/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lc-soft/LCUI/issues"
+  },
+  "homepage": "https://github.com/lc-soft/LCUI#readme"
+}

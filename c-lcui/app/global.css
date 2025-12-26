@@ -1,0 +1,23 @@
+@tailwind components;
+@tailwind utilities;
+
+text {
+  font-family: "inconsolata";
+  font-size: 16px;
+}
+
+textinput {
+  font-family: "inconsolata";
+  font-size: 14px;
+}
+
+button {
+  font-family: "inconsolata";
+  font-size: 14px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 16px 24px;
+}
