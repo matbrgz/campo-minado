@@ -1,230 +1,116 @@
-# Campo Minado - Multi-Implementação
+# Campo Minado - Projeto de Graduação (UFV)
 
-Coleção de implementações do clássico jogo Campo Minado em diferentes linguagens e tecnologias.
+Este repositório contém o projeto desenvolvido durante o curso de **Sistemas de Informação** na **Universidade Federal de Viçosa (UFV)**. O objetivo foi explorar diferentes paradigmas de desenvolvimento e tecnologias através da implementação do clássico jogo **Campo Minado**.
 
-## Descrição
+## 🎓 Contexto Acadêmico
 
-Este repositório contém três implementações completas do jogo Campo Minado, cada uma usando uma abordagem tecnológica diferente, demonstrando a versatilidade do desenvolvimento de jogos em diferentes plataformas e paradigmas.
+**Instituição:** Universidade Federal de Viçosa (UFV)
+**Curso:** Sistemas de Informação
+**Projeto:** Multi-implementação do jogo Campo Minado
 
-## Implementações Disponíveis
+O projeto demonstra a versatilidade no desenvolvimento de software, abordando desde aplicações de baixo nível em terminal até interfaces gráficas modernas e multiplataforma.
+
+---
+
+## 📂 Estrutura do Projeto
+
+O projeto está organizado em três implementações principais, cada uma explorando tecnologias distintas:
+
+```text
+.
+├── Makefile            # Automação principal para gerenciar todos os projetos
+├── c-cli/              # Implementação 1: Terminal (C Puro)
+│   ├── campominado.c   # Código fonte único
+│   ├── Makefile
+│   └── README.md
+├── c-lcui/             # Implementação 2: Desktop GUI (C + LCUI)
+│   ├── app/            # Código da aplicação
+│   ├── xmake.lua       # Configuração de build
+│   └── Makefile
+└── csharp-uno/         # Implementação 3: Multiplataforma (C# + Uno Platform)
+    ├── MinesweeperGame.cs
+    ├── MainPage.xaml
+    ├── MinesweeperUno.sln
+    └── Makefile
+```
+
+---
+
+## 🛠️ Implementações
 
 ### 1. 🖥️ C CLI (Terminal)
-**Pasta:** `c-cli/`
+**Foco:** Lógica pura e manipulação de memória em C.
+- **Tecnologia:** C (Standard Library)
+- **Interface:** Linha de Comando (CLI)
+- **Características:** Leve, rápido e portátil em sistemas Unix-like.
 
-Versão clássica para linha de comando, escrita em C puro.
-
-- **Linguagem:** C
-- **Interface:** Terminal/CLI
-- **Dependências:** GCC
-- **Plataformas:** Linux, macOS, WSL
-
-```bash
-make c-cli
-```
-
-[Ver documentação completa →](c-cli/README.md)
-
----
-
-### 2. 🎨 C LCUI (Interface Gráfica) ⚠️ EXPERIMENTAL
-
-**Pasta:** `c-lcui/`
-
-⚠️ **STATUS:** Em desenvolvimento - apresenta problemas de estabilidade
-
-Interface gráfica usando LCUI framework com suporte a CSS.
-
-- **Linguagem:** C com LCUI
-- **Interface:** GUI (desktop nativo)
-- **Dependências:** XMake, Node.js, LCUI
-- **Plataformas:** Windows, Linux, macOS
-- **Status:** Experimental - Segmentation faults no ambiente atual
-
-```bash
-make c-lcui-install
-make c-lcui-run  # ⚠️ Pode não funcionar
-```
-
-**Nota:** Esta implementação está em desenvolvimento. Recomenda-se usar C CLI ou C# Uno.
-
-[Ver documentação completa →](c-lcui/README.md)
-
----
+### 2. 🎨 C LCUI (Interface Gráfica)
+**Foco:** Desenvolvimento desktop nativo em C com interface moderna.
+- **Tecnologia:** C, LCUI (GUI Framework), CSS
+- **Interface:** Janela Desktop
+- **Status:** Experimental (em desenvolvimento)
 
 ### 3. 🌐 C# Uno Platform (Multiplataforma)
-**Pasta:** `csharp-uno/`
-
-Aplicação multiplataforma usando C# e Uno Platform.
-
-- **Linguagem:** C# com XAML
-- **Interface:** GUI multiplataforma
-- **Dependências:** .NET 9 SDK
-- **Plataformas:** Web (WASM), Desktop, Android, iOS
-- **Recursos:** XAML, Hot Reload, Design responsivo
-
-```bash
-make csharp-install
-make csharp-run
-```
-
-[Ver documentação completa →](csharp-uno/README.md)
+**Foco:** Desenvolvimento moderno orientado a objetos e cross-platform.
+- **Tecnologia:** C# .NET 9, Uno Platform, XAML
+- **Interface:** Web (WASM), Desktop, Mobile
+- **Características:** Interface rica e responsiva.
 
 ---
 
-## Início Rápido
+## 🚀 Como Executar
 
-### Ver todas as opções
+O projeto possui um `Makefile` na raiz que facilita a execução de qualquer versão.
+
+### Comandos Principais
 
 ```bash
+# Listar todas as opções disponíveis
 make help
-```
 
-### Ver status do ambiente
-
-```bash
+# Verificar status das dependências
 make status
 ```
 
-### Listar implementações
+### Executando cada versão
 
+#### Versão C CLI (Terminal)
 ```bash
-make list
+make c-cli          # Compila e executa
 ```
 
-### Instalar todas as dependências
-
+#### Versão C LCUI (Experimental)
 ```bash
-make install-all
+make c-lcui-install # Instala dependências
+make c-lcui         # Compila e executa
 ```
 
-### Compilar tudo
-
+#### Versão C# Uno
 ```bash
-make build-all
+make csharp-install # Instala workloads do .NET
+make csharp         # Compila e executa
 ```
-
-### Limpar tudo
-
-```bash
-make clean-all
-```
-
-## Comandos por Implementação
-
-### C CLI
-```bash
-make c-cli-build    # Compilar
-make c-cli-run      # Executar
-make c-cli-clean    # Limpar
-make c-cli          # Compilar + Executar
-```
-
-### C LCUI
-```bash
-make c-lcui-install # Instalar dependências
-make c-lcui-build   # Compilar
-make c-lcui-run     # Executar
-make c-lcui-clean   # Limpar
-make c-lcui         # Build + Executar
-```
-
-### C# Uno
-```bash
-make csharp-install # Instalar workloads
-make csharp-build   # Compilar
-make csharp-run     # Executar
-make csharp-clean   # Limpar
-make csharp         # Build + Executar
-```
-
-## Requisitos por Implementação
-
-| Implementação | Requisitos Principais |
-|---------------|----------------------|
-| **C CLI** | GCC |
-| **C LCUI** | GCC, XMake, Node.js |
-| **C# Uno** | .NET 9 SDK |
-
-## Estrutura do Projeto
-
-```
-campo-minado/
-├── c-cli/              # Implementação C CLI
-│   ├── campominado.c
-│   ├── Makefile
-│   └── README.md
-│
-├── c-lcui/             # Implementação C LCUI
-│   ├── app/
-│   ├── xmake.lua
-│   ├── Makefile
-│   └── README.md
-│
-├── csharp-uno/         # Implementação C# Uno
-│   ├── App.xaml
-│   ├── MainPage.xaml
-│   ├── MinesweeperUno.sln
-│   ├── Makefile
-│   └── README.md
-│
-├── Makefile            # Makefile principal
-└── README.md           # Este arquivo
-```
-
-## Comparação das Implementações
-
-| Característica | C CLI | C LCUI | C# Uno |
-|----------------|-------|---------|---------|
-| Interface | Terminal | GUI Nativa | GUI Multiplataforma |
-| Complexidade | Baixa | Média | Média-Alta |
-| Portabilidade | Alta (CLI) | Média (Desktop) | Muito Alta |
-| Performance | Excelente | Excelente | Boa |
-| Tamanho Final | Mínimo | Pequeno | Médio |
-| Hot Reload | ❌ | ✅ | ✅ |
-| Web | ❌ | ❌ | ✅ |
-| Mobile | ❌ | ❌ | ✅ |
-| Desktop | ✅ | ✅ | ✅ |
-
-## Como Escolher?
-
-- **Quer algo rápido e leve?** → C CLI
-- **Quer interface gráfica nativa em C?** → C LCUI
-- **Quer multiplataforma moderno?** → C# Uno
-- **Quer aprender diferentes tecnologias?** → Todas! 🎓
-
-## Desenvolvimento
-
-Cada implementação tem seu próprio README com instruções detalhadas de desenvolvimento, arquitetura e recursos específicos.
-
-## Recursos do Jogo
-
-Todas as implementações incluem:
-- ✅ Grid customizável de células
-- ✅ Geração aleatória de minas
-- ✅ Revelação de células
-- ✅ Marcação de bandeiras
-- ✅ Detecção de vitória/derrota
-- ✅ Configurações de dificuldade
-
-## Contribuindo
-
-Sinta-se à vontade para:
-- Reportar bugs
-- Sugerir melhorias
-- Adicionar novas implementações
-- Melhorar a documentação
-
-## Licenças
-
-Cada implementação pode ter sua própria licença. Verifique o arquivo LICENSE em cada pasta.
-
-## Links Úteis
-
-- [LCUI Framework](https://lcui.lc-soft.io/)
-- [Uno Platform](https://platform.uno/)
-- [XMake](https://xmake.io/)
-- [.NET](https://dotnet.microsoft.com/)
 
 ---
 
-**Divirta-se jogando e explorando diferentes tecnologias!** 🎮
+## 🧩 Detalhes Técnicos
+
+### Requisitos Gerais
+- **Make:** Para orquestração dos comandos.
+- **GCC:** Para as versões em C.
+- **.NET SDK:** Para a versão em C#.
+
+### Comparativo
+
+| Característica | C CLI | C LCUI | C# Uno |
+|----------------|-------|---------|---------|
+| **Nível** | Baixo Nível | Médio Nível | Alto Nível |
+| **Interface** | Texto | Gráfica (C) | Gráfica (XAML) |
+| **Paradigma** | Estrutural | Estrutural/Eventos | Orientado a Objetos |
+| **Plataforma** | Linux/Mac/WSL | Desktop | Web/Mobile/Desktop |
+
+---
+
+## 📄 Licença
+
+Este projeto foi desenvolvido para fins acadêmicos. Consulte os arquivos de licença em cada subdiretório para detalhes específicos.
